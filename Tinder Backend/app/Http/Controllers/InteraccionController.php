@@ -35,26 +35,25 @@ class InteraccionController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $interesado = $request->input('perro_id');
+        $candidato = $request->input('perro_candidato_id');
+        $preferencia = $request->input('preferencia');
+
+        $interaccion = new Interaccion;
+        $interaccion->perro_interesado_id = $interesado;
+        $interaccion->perro_candidato_id = $candidato;
+        $interaccion->preferencia = $preferencia;
+        $interaccion->save();
+        return response()->json($interaccion, status:201);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Interaccion  $interaccion
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Interaccion $interaccion)
+    public function show($id)
     {
-        //
+        $interaccion = Interaccion::findOrFail($id);
+        return response()->json($interaccion, status:201);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Interaccion  $interaccion
-     * @return \Illuminate\Http\Response
-     */
+
     public function edit(Interaccion $interaccion)
     {
         //
@@ -81,5 +80,17 @@ class InteraccionController extends Controller
     public function destroy(Interaccion $interaccion)
     {
         //
+    }
+
+    public function aceptados()
+    {
+        $Interacciones = Interaccion::where('preferencia', 'aceptado')->get();
+        return response()->json($Interacciones);
+    }
+
+    public function rechazados()
+    {
+        $Interacciones = Interaccion::where('preferencia', 'rechazado')->get();
+        return response()->json($Interacciones);
     }
 }

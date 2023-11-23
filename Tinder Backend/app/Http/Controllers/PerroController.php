@@ -59,4 +59,21 @@ class PerroController extends Controller
 
         return redirect()->route('perros.index')->with('sucess','Perro eliminado exitosamente');
     }
+
+    public function GetRandom()
+    {
+
+        $Dog = Perro::inRandomOrder()->first();
+
+        return response()->json($Dog);
+    }
+
+    public function getCandidatos($id)
+    {
+        $Dog = Perro::inRandomOrder()->where('id', '!=', $id);
+        
+        return response()->json($Dog);
+    }
+
+    
 }
