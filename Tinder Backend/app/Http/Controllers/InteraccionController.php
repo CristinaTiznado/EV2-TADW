@@ -7,40 +7,25 @@ use Illuminate\Http\Request;
 
 class InteraccionController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function index()
     {
         return Interaccion::get();
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
         return view('perros.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
+    public function store(InteraccionRequest $request)
     {
         $interesado = $request->input('perro_id');
         $candidato = $request->input('perro_candidato_id');
         $preferencia = $request->input('preferencia');
-
+        
         $interaccion = new Interaccion;
-        $interaccion->perro_interesado_id = $interesado;
+        $interaccion->perro_id = $interesado;
         $interaccion->perro_candidato_id = $candidato;
         $interaccion->preferencia = $preferencia;
         $interaccion->save();
@@ -54,33 +39,44 @@ class InteraccionController extends Controller
     }
 
 
-    public function edit(Interaccion $interaccion)
+    public function edit($id)
     {
-        //
+        $interaccion = Interaccion::findOrFail($id);
+        return response()->json($interaccion, status:201);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Interaccion  $interaccion
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Interaccion $interaccion)
+    public function update(InteraccionRequest $request)
     {
-        //
+        $candidato = $request->input('perro_candidato_id');
+        $preferencia = $request->input('preferencia');
+
+        $interaccion = Interaccion::findorFail($candidato);
+        $interaccion->perro_interesado_id = 1;
+        $interaccion->perro_candidato_id = $candidato;
+        $interaccion->preferencia = $preferencia;
+        $interaccion->update();
+        return response()->json($interaccion, status:201);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Interaccion  $interaccion
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Interaccion $interaccion)
+    public function destroy($id)
     {
-        //
+        $perro = Interaccion::findOrFail($id);
+        $perro->delete();
+
+        return redirect()->route('perros.index')->with('sucess','Perro eliminado exitosamente');
     }
+
+    public function preferencia(InteraccionRequest $request)
+    {
+        $interaccion = new Interaccion ;
+        $interaccion->perro_id = $request->input('perro_id');
+        $interaccion->perro_candidato_id = $request->input('perro_candidato_id');
+        $interaccion->preferencia = $request->input('preferencia');
+
+        $interaccion->save();
+        return response()->json($interaccion, status:201);
+    }
+
 
     public function aceptados()
     {
