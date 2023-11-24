@@ -15,7 +15,7 @@ class InteraccionRequest extends FormRequest
         return [
             "perro_id" => "required|int",
             "perro_candidato_id" => "required|int",
-            "preferencia" => "required|string",
+            "preferencia" => "required|string|in:a,r"
         ];
     }
 

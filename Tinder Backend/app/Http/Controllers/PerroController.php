@@ -60,6 +60,10 @@ class PerroController extends Controller
         return redirect()->route('perros.index')->with('sucess','Perro eliminado exitosamente');
     }
 
+
+    /*una api que entregue un perro random para utilizar como perro interesado,
+     esta api debe entregar solamente el nombre e id del perro. */
+
     public function GetRandom()
     {
 
@@ -68,6 +72,10 @@ class PerroController extends Controller
         return response()->json($Dog);
     }
 
+    /*una api que entregue perros candidatos, 
+    esta no debe entregar al perro interesado al momento de hacer la busqueda. 
+    solo deberá recibir el id del perro interesado. */
+
     public function getCandidatos($id)
     {
         $Dog = Perro::inRandomOrder()->where('id', '!=', $id);
@@ -75,5 +83,25 @@ class PerroController extends Controller
         return response()->json($Dog);
     }
 
+    /*una api donde; con el id del perro interesado, ver los perros que ha aceptado 
+    y otra para los rechazados. */
+
+    public function getAceptados($id)
+    {
+        $Aceptados = Interaccion::where('perro_id', $id)
+                                      ->where('preferencia', 'a')
+                                      ->pluck('perro_candidato_id');
+
+        return Perro::whereIn('id', $Aceptados)->get();
+    }
+
+    public function getRechazados($id)
+    {
+        $Rechazados = Interaccion::where('perro_id', $id)
+                                       ->where('preferencia', 'r')
+                                       ->pluck('perro_candidato_id');
+
+        return Perro::whereIn('id', $Rechazados)->get();
+    }
     
 }

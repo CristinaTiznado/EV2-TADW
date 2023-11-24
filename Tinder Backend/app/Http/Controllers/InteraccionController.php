@@ -23,7 +23,7 @@ class InteraccionController extends Controller
         $interesado = $request->input('perro_id');
         $candidato = $request->input('perro_candidato_id');
         $preferencia = $request->input('preferencia');
-        
+
         $interaccion = new Interaccion;
         $interaccion->perro_id = $interesado;
         $interaccion->perro_candidato_id = $candidato;
@@ -66,6 +66,11 @@ class InteraccionController extends Controller
         return redirect()->route('perros.index')->with('sucess','Perro eliminado exitosamente');
     }
 
+    /*dejamos el crud creado para manipular las pruebas. Sabemos que no eran necesarias dentro de los requisitos.
+    
+    A continuación: Una api donde se guardarán las preferencias de cada perro.
+    */
+
     public function preferencia(InteraccionRequest $request)
     {
         $interaccion = new Interaccion ;
@@ -74,19 +79,34 @@ class InteraccionController extends Controller
         $interaccion->preferencia = $request->input('preferencia');
 
         $interaccion->save();
-        return response()->json($interaccion, status:201);
+
+        $match = $this->match($interaccion);
+
+        if ($match) {
+            return response()->json(['message' => '¡Hay match!'], status:200);
+        } else {
+            return response()->json(['message' => 'OK'], status:201);
+        }
     }
 
+    /*it’s a Match! - Cada vez que ud registre una interaccion deberá validar si existe o no un match
+        entre los perros. en caso de haber, el sistema debe retornar un mensaje de “hay match”. caso
+        contrario, deberá retornar un mensaje de “ok”. */
 
-    public function aceptados()
+    private function match($interaccion)
     {
-        $Interacciones = Interaccion::where('preferencia', 'aceptado')->get();
-        return response()->json($Interacciones);
+        $perroId = $interaccion->perro_id;
+        $candidatoId = $interaccion->perro_candidato_id;
+
+        //Agradecido con la explicación en la pizarra
+        $match = Interaccion::where('perro_id', $candidatoId)
+                                ->where('perro_candidato_id', $perroId)
+                                ->where('preferencia', 'a')
+                                ->first();
+
+        return !is_null($match);
+
     }
 
-    public function rechazados()
-    {
-        $Interacciones = Interaccion::where('preferencia', 'rechazado')->get();
-        return response()->json($Interacciones);
-    }
+
 }
