@@ -13,9 +13,16 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('interaccions', function (Blueprint $table) {
+        Schema::create('interaccion', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('perro_id');
+            $table->unsignedBigInteger('perro_candidato_id');
+            $table->char('preferencia', 1);
             $table->timestamps();
+
+            // Claves foráneas
+            $table->foreign('perro_id')->references('id')->on('perros');
+            $table->foreign('perro_candidato_id')->references('id')->on('perros');
         });
     }
 
@@ -26,6 +33,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('interaccions');
+        Schema::dropIfExists('interaccion');
     }
 };

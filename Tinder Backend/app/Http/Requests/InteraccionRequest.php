@@ -1,11 +1,12 @@
 <?php
 
-namespace App\Http\Requests;
+namespace app\Http\Requests;
 
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Http\Response;
+
 
 class InteraccionRequest extends FormRequest
 {

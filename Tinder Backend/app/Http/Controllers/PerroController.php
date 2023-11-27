@@ -1,10 +1,17 @@
 <?php
 
+
 namespace App\Http\Controllers;
 
+use Illuminate\Http\Request;
 use App\Http\Requests\PerroRequest;
 use App\Models\Perro;
-use Illuminate\Http\Request;
+use App\Models\Interaccion;
+
+use Illuminate\Support\Facades\DB; // También puedes necesitar este para algunas consultas
+use App\Http\Controllers\Controller;
+
+
 
 class PerroController extends Controller
 {
@@ -78,9 +85,13 @@ class PerroController extends Controller
 
     public function getCandidatos($id)
     {
-        $Dog = Perro::inRandomOrder()->where('id', '!=', $id);
-        
-        return response()->json($Dog);
+        $dogs = Perro::inRandomOrder()->where('id', '!=', $id)->get()->first();
+    
+        $response = [
+            'dogs' => $dogs,
+        ];
+    
+        return response()->json($response);
     }
 
     /*una api donde; con el id del perro interesado, ver los perros que ha aceptado 

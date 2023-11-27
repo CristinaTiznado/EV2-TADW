@@ -14,7 +14,7 @@ class PerroSeeder extends Seeder
 
         $faker = \Faker\Factory::create();
 
-        $this->CrearPerros($faker, 100);
+        $this->CrearPerros($faker, 10);
 
     }
 

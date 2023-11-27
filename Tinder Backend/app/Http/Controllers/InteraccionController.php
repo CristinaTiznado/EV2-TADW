@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Interaccion;
 use Illuminate\Http\Request;
+use App\Http\Requests\InteraccionRequest;
+
 
 class InteraccionController extends Controller
 {

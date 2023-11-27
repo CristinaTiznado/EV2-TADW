@@ -11,5 +11,6 @@ use Illuminate\Database\Eloquent\Model;
 class Interaccion extends Model
 {
     use HasFactory;
-    protected $fillable = ['perrointeresado','perrocandidato','preferencia'];
+    protected $table = 'interaccion';
+    protected $fillable = ['perro_id', 'perro_candidato_id', 'preferencia'];
 }
