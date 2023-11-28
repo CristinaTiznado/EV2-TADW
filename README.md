@@ -1,5 +1,5 @@
 # Repositorio para Evaluación 2 - Taller Avanzado de Desarrollo Web
-Integrantes:
+Integrantes Grupo 13:
 - Javiera Estrada
 - Bryan Ruiz
 - Cristina Tiznado
