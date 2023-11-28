@@ -68,7 +68,7 @@ class InteraccionController extends Controller
         return redirect()->route('perros.index')->with('sucess','Perro eliminado exitosamente');
     }
 
-    /*dejamos el crud creado para manipular las pruebas. Sabemos que no eran necesarias dentro de los requisitos.
+    /*dejamos el crud creado para manipular las pruebas. Sabemos que no eran necesarias dentro de los requisitos.(y a estas alturas no quiero tocar nada porque funciona todo)
     
     A continuación: Una api donde se guardarán las preferencias de cada perro.
     */
