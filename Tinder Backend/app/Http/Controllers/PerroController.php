@@ -79,6 +79,16 @@ class PerroController extends Controller
         return response()->json($Dog);
     }
 
+    public function Todos()
+    {
+
+        $Dog = Perro::all();
+
+        return response()->json($Dog);
+    }
+
+
+
     /*una api que entregue perros candidatos, 
     esta no debe entregar al perro interesado al momento de hacer la busqueda. 
     solo deberá recibir el id del perro interesado. */
@@ -114,5 +124,17 @@ class PerroController extends Controller
 
         return Perro::whereIn('id', $Rechazados)->get();
     }
-    
+
+    public function getPretendientes($id)
+    {
+        $pretendientes = Interaccion::where('perro_id', $id)
+                                       ->where(function ($query) {
+                                           $query->where('preferencia', 'r')
+                                                 ->orWhere('preferencia', 'a');
+                                       })
+
+        return Perro::whereIn('id', $pretendientes)->get();
+    }
+
+
 }

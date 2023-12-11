@@ -28,8 +28,14 @@ Route::get('/perros/candidatos/{id}', [PerroController::class, 'getCandidatos'])
 Route::get('/perros/aceptados/{id}', [PerroController::class, 'getAceptados']);
 Route::get('/perros/rechazados/{id}', [PerroController::class, 'getRechazados']);
 
+Route::get('/perros/todos', [PerroController::class, 'Todos']);
+Route::get('/perros/pretendientes/{id}', [PerroController::class, 'getPretendientes']);
+
+
 Route::post('/interaccion/preferencia', [InteraccionController::class, 'preferencia']);
 Route::post('/interaccion/preferencia', [InteraccionController::class, 'preferencia']);
 
 Route::resource('perros',PerroController::class);
 Route::resource('interaccion',InteraccionController::class);
+
+Route::post('/perros', 'PerroController@store')->name('perros.store');
